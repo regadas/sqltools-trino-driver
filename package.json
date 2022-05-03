@@ -1,13 +1,13 @@
 {
-  "name": "driver-template",
-  "displayName": "Driver Template",
-  "description": "Driver Template to be used as base for new VSCode SQLTools drivers",
+  "name": "sqltools-trino-driver",
+  "displayName": "Trino Driver",
+  "description": "Trino Driver for SQLTools",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.42.0"
   },
-  "publisher": "mtxr",
-  "license": "MIT",
+  "publisher": "regadas",
+  "license": "Apache",
   "repository": {},
   "bugs": {},
   "scripts": {
@@ -16,7 +16,11 @@
     "watch": "tsc -watch -p ./"
   },
   "keywords": [
-    "driver-template",
+    "Trino",
+    "Trinodb",
+    "trino",
+    "trino-driver",
+    "trinodb",
     "sqltools-driver"
   ],
   "categories": [
