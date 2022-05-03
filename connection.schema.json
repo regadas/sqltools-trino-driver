@@ -2,13 +2,26 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "properties": {
-    "database": {
-      "title": "Database file",
-      "type": "string",
-      "minLength": 1
+    "host": {
+      "title": "Host",
+      "type": "string"
+    },
+    "catalog": {
+      "title": "Catalog",
+      "type": "string"
+    },
+    "schema": {
+      "title": "Schema",
+      "type": "string"
+    },
+    "user": {
+      "title": "User",
+      "type": "string"
+    },
+    "maxQueryResults": {
+      "title": "Max query results",
+      "type": "number"
     }
   },
-  "required": [
-    "database"
-  ]
+  "required": ["host"]
 }

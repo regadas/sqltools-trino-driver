@@ -1,4 +1,6 @@
 {
-  "ui:order": ["database"],
-  "database": { "ui:widget": "file" }
+  "ui:order": ["host", "catalog", "schema", "user"],
+  "maxQueryResults": {
+    "ui:help": "The maximum number of results allowed in the result of a query. The default is 100,000. Increasing this value will allow you to run queries that return more results, but at the cost of additional memory consumption, as all query results will be loaded into memory."
+  }
 }
