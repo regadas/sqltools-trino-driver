@@ -3,8 +3,11 @@ import queryFactory from "@sqltools/base-driver/dist/lib/factory";
 
 /** write your queries here go fetch desired data. This queries are just examples copied from SQLite driver */
 
-const describeTable: IBaseQueries["describeTable"] = queryFactory`
-  describe ${(p) => p.database}.${(p) => p.schema}.${(p) => p.table}
+const describeTable: IBaseQueries['describeTable'] = queryFactory`
+select * from ${p => p.database}.information_schema.columns
+where table_catalog = '${p => p.database}'
+  and table_schema  = '${p => p.schema}'
+  and table_name    = '${p => p.label}'
 `;
 
 const fetchColumns: IBaseQueries["fetchColumns"] = queryFactory`
