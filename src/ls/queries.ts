@@ -49,9 +49,10 @@ SELECT table_catalog AS database,
        TABLE_NAME  AS label,
        '${type}' AS type,
        ${type === ContextValue.VIEW ? "TRUE" : "FALSE"} AS isView
-FROM INFORMATION_SCHEMA.TABLES
+FROM ${(p) => p.database}.INFORMATION_SCHEMA.TABLES
 WHERE TABLE_CATALOG = '${(p) => p.database}'
 AND   TABLE_SCHEMA  = '${(p) => p.schema}'
+AND   TABLE_TYPE = ${type === ContextValue.TABLE ? `'BASE TABLE'` : `'VIEW'`}
 ORDER BY TABLE_NAME
 `;
 
