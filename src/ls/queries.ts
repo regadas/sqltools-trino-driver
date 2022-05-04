@@ -63,14 +63,20 @@ const fetchViews: IBaseQueries["fetchTables"] = fetchTablesAndViews(
   ContextValue.VIEW
 );
 
-const searchTables: IBaseQueries["searchTables"] = queryFactory`
-SELECT name AS label,
-  type
-FROM sqlite_master
-${(p) =>
-  p.search ? `WHERE LOWER(name) LIKE '%${p.search.toLowerCase()}%'` : ""}
-ORDER BY name
+const searchTables: IBaseQueries['searchTables'] = queryFactory`
+SELECT TABLE_SCHEMA || '.' || TABLE_NAME AS label,
+       CASE WHEN TABLE_TYPE='BASE TABLE' THEN 'TABLE' ELSE 'VIEW' END AS type
+FROM INFORMATION_SCHEMA.TABLES
+WHERE TABLE_CATALOG = '${p => p.database}'
+  ${p => p.search ? `AND (
+    (LOWER(TABLE_NAME) LIKE '%${p.search.toLowerCase()}%')
+    OR
+    (LOWER(TABLE_SCHEMA) || '.' || LOWER(TABLE_NAME)) LIKE '%${p.search.toLowerCase()}%'
+  )`
+    : ''}
+ORDER BY TABLE_NAME
 `;
+
 const searchColumns: IBaseQueries["searchColumns"] = queryFactory`
 SELECT C.name AS label,
   T.name AS "table",
