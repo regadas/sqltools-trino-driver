@@ -63,12 +63,11 @@ export default class TrinoDriver
             data: function (error, data, columns, _) {
               if (error) return reject(error);
 
-              const d = {};
               data.forEach((row) => {
+                const d = {};
                 columns.forEach((element, ci) => (d[element.name] = row[ci]));
+                results.push(d);
               });
-
-              results.push(d);
             },
             success: function (error, _) {
               if (error) return reject(error);
