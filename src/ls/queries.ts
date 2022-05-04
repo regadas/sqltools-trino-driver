@@ -3,11 +3,11 @@ import queryFactory from "@sqltools/base-driver/dist/lib/factory";
 
 /** write your queries here go fetch desired data. This queries are just examples copied from SQLite driver */
 
-const describeTable: IBaseQueries['describeTable'] = queryFactory`
-select * from ${p => p.database}.information_schema.columns
-where table_catalog = '${p => p.database}'
-  and table_schema  = '${p => p.schema}'
-  and table_name    = '${p => p.label}'
+const describeTable: IBaseQueries["describeTable"] = queryFactory`
+select * from ${(p) => p.database}.information_schema.columns
+where table_catalog = '${(p) => p.database}'
+  and table_schema  = '${(p) => p.schema}'
+  and table_name    = '${(p) => p.label}'
 `;
 
 const fetchColumns: IBaseQueries["fetchColumns"] = queryFactory`
@@ -63,33 +63,35 @@ const fetchViews: IBaseQueries["fetchTables"] = fetchTablesAndViews(
   ContextValue.VIEW
 );
 
-const searchTables: IBaseQueries['searchTables'] = queryFactory`
+const searchTables: IBaseQueries["searchTables"] = queryFactory`
 SELECT TABLE_SCHEMA || '.' || TABLE_NAME AS label,
        CASE WHEN TABLE_TYPE='BASE TABLE' THEN 'TABLE' ELSE 'VIEW' END AS type
 FROM INFORMATION_SCHEMA.TABLES
-WHERE TABLE_CATALOG = '${p => p.database}'
-  ${p => p.search ? `AND (
+  ${(p) =>
+    p.search
+      ? `WHERE
     (LOWER(TABLE_NAME) LIKE '%${p.search.toLowerCase()}%')
     OR
-    (LOWER(TABLE_SCHEMA) || '.' || LOWER(TABLE_NAME)) LIKE '%${p.search.toLowerCase()}%'
-  )`
-    : ''}
+    ((LOWER(TABLE_SCHEMA) || '.' || LOWER(TABLE_NAME)) LIKE '%${p.search.toLowerCase()}%')
+    OR
+    ((LOWER(TABLE_CATALOG) || '.' || LOWER(TABLE_SCHEMA) || '.' || LOWER(TABLE_NAME)) LIKE '%${p.search.toLowerCase()}%')
+  `
+      : ""}
 ORDER BY TABLE_NAME
 `;
 
 const searchColumns: IBaseQueries["searchColumns"] = queryFactory`
-SELECT C.name AS label,
-  T.name AS "table",
-  C.type AS dataType,
-  C."notnull" AS isNullable,
-  C.pk AS isPk,
-  '${ContextValue.COLUMN}' as type
-FROM sqlite_master AS T
-LEFT OUTER JOIN pragma_table_info((T.name)) AS C ON 1 = 1
+SELECT C.COLUMN_NAME AS label,
+       C.TABLE_NAME AS "table",
+       C.DATA_TYPE AS dataType,
+       CASE WHEN C.IS_NULLABLE = 'YES' THEN TRUE ELSE FALSE END AS isNullable,
+       FALSE AS isPk,
+       '${ContextValue.COLUMN}' as type
+FROM INFORMATION_SCHEMA.COLUMNS C
 WHERE 1 = 1
 ${(p) =>
   p.tables.filter((t) => !!t.label).length
-    ? `AND LOWER(T.name) IN (${p.tables
+    ? `AND LOWER(C.TABLE_NAME) IN (${p.tables
         .filter((t) => !!t.label)
         .map((t) => `'${t.label}'`.toLowerCase())
         .join(", ")})`
@@ -97,12 +99,11 @@ ${(p) =>
 ${(p) =>
   p.search
     ? `AND (
-    LOWER(T.name || '.' || C.name) LIKE '%${p.search.toLowerCase()}%'
-    OR LOWER(C.name) LIKE '%${p.search.toLowerCase()}%'
+    LOWER(C.TABLE_NAME || '.' || C.COLUMN_NAME) LIKE '%${p.search.toLowerCase()}%'
+    OR LOWER(C.COLUMN_NAME) LIKE '%${p.search.toLowerCase()}%'
   )`
     : ""}
-ORDER BY C.name ASC,
-  C.cid ASC
+ORDER BY C.COLUMN_NAME ASC, C.ORDINAL_POSITION ASC
 LIMIT ${(p) => p.limit || 100}
 `;
 
