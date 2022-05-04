@@ -23,5 +23,5 @@
       "type": "number"
     }
   },
-  "required": ["host"]
+  "required": ["host", "user"]
 }
