@@ -9,13 +9,15 @@ import {
 } from "@sqltools/types";
 import { v4 as generateId } from "uuid";
 import presto from "presto-client";
+import { QueryResponse } from "./types";
 
 type DriverLib = typeof presto.Client;
 type DriverOptions = any;
 
 export default class TrinoDriver
   extends AbstractDriver<DriverLib, DriverOptions>
-  implements IConnectionDriver {
+  implements IConnectionDriver
+{
   queries = queries;
 
   public async open(): Promise<presto.Client> {
@@ -56,46 +58,49 @@ export default class TrinoDriver
     const { requestId } = opt;
     return this.open()
       .then(async (db) => {
-        const queriesResults: any[] = await new Promise((resolve, reject) => {
-          let results = [];
-          db.execute({
-            query: query,
-            data: function (error, data, columns, _) {
+        const queriesResults: QueryResponse = await new Promise(
+          (resolve, reject) => {
+            const results = [];
+            let cols = [];
+
+            const onData = (error, rows, columns, _) => {
               if (error) return reject(error);
 
-              data.forEach((row) => {
-                const d = {};
-                columns.forEach((element, ci) => (d[element.name] = row[ci]));
-                results.push(d);
+              cols = columns;
+              rows.forEach((row) => {
+                const data = {};
+                row.forEach((value, idx) => (data[columns[idx].name] = value));
+                results.push(data);
               });
-            },
-            success: function (error, _) {
+            };
+
+            const callback = (error, _) => {
               if (error) return reject(error);
-              resolve(results);
-            },
-            error: function (error) {
-              reject(error);
-            },
-          });
-        });
+              resolve([results, cols]);
+            };
+
+            db.execute({ query: query, data: onData, callback: callback });
+          }
+        );
         return queriesResults;
       })
       .then((results) => {
+        const [rows, columns] = results;
         return [
           <NSDatabase.IResult>{
             requestId,
             resultId: generateId(),
             connId: this.getId(),
-            cols: Object.keys(results[0]),
+            cols: columns.map((col) => col.name),
+            results: rows,
             messages: [
               this.prepareMessage(
-                [`Successfully executed. ${results.length} rows were affected.`]
+                [`Successfully executed. ${rows.length} rows were affected.`]
                   .filter(Boolean)
                   .join(" ")
               ),
             ],
             query,
-            results,
           },
         ];
       })
@@ -182,9 +187,13 @@ export default class TrinoDriver
   }: Arg0<IConnectionDriver["getChildrenForItem"]>) {
     switch (item.childType) {
       case ContextValue.TABLE:
-        return this.queryResults(queries.fetchTables(parent as NSDatabase.ISchema));
+        return this.queryResults(
+          queries.fetchTables(parent as NSDatabase.ISchema)
+        );
       case ContextValue.VIEW:
-        return this.queryResults(queries.fetchViews(parent as NSDatabase.ISchema));
+        return this.queryResults(
+          queries.fetchViews(parent as NSDatabase.ISchema)
+        );
     }
     return [];
   }
@@ -202,7 +211,9 @@ export default class TrinoDriver
       case ContextValue.VIEW:
         return this.queryResults(queries.searchTables({ search }));
       case ContextValue.COLUMN:
-        return this.queryResults(queries.searchColumns({ search, ..._extraParams }));
+        return this.queryResults(
+          queries.searchColumns({ search, ..._extraParams })
+        );
     }
     return [];
   }
