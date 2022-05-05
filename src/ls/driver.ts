@@ -27,7 +27,7 @@ export default class TrinoDriver
 
     const connOptions = {
       host: this.credentials.host,
-      port: 8080,
+      port: this.credentials.port,
       catalog: this.credentials.catalog,
       schema: this.credentials.schema,
       user: this.credentials.user,

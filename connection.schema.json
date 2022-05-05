@@ -6,6 +6,10 @@
       "title": "Host",
       "type": "string"
     },
+    "port": {
+      "title": "Port",
+      "type": "number"
+    },
     "catalog": {
       "title": "Catalog",
       "type": "string"
@@ -17,11 +21,7 @@
     "user": {
       "title": "User",
       "type": "string"
-    },
-    "maxQueryResults": {
-      "title": "Max query results",
-      "type": "number"
     }
   },
-  "required": ["host", "user"]
+  "required": ["host", "port", "user"]
 }
