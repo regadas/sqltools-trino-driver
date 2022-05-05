@@ -23,5 +23,5 @@
       "type": "string"
     }
   },
-  "required": ["host", "port", "user"]
+  "required": ["host", "catalog", "port", "user"]
 }
