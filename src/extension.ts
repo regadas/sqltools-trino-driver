@@ -6,7 +6,7 @@ import {
 } from "@sqltools/types";
 import { ExtensionContext } from "vscode";
 import { DRIVER_ALIASES } from "./constants";
-const { publisher, name, displayName } = require("../package.json");
+import { publisher, name, displayName } from "../package.json";
 
 export async function activate(
   extContext: ExtensionContext
