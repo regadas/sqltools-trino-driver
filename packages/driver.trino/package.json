@@ -1,0 +1,61 @@
+{
+  "name": "sqltools-trino-driver",
+  "displayName": "Trino Driver",
+  "description": "Trino Driver for SQLTools",
+  "version": "0.1.0",
+  "engines": {
+    "vscode": "^1.42.0"
+  },
+  "publisher": "regadas",
+  "license": "MIT",
+  "repository": {},
+  "bugs": {},
+  "scripts": {
+    "clean": "rimraf -rf out *.vsix",
+    "esbuild:ext": "esbuild ./src/extension.ts --bundle --external:vscode --platform=node --tsconfig=./tsconfig.json --log-level=info --color=true --format=cjs --target=es2017 --minify --outfile=./out/extension.js",
+    "esbuild:ls": "esbuild ./src/ls/plugin.ts --bundle --external:vscode --platform=node --tsconfig=./tsconfig.json --log-level=info --color=true --format=cjs --target=es2017 --minify --outfile=./out/ls/plugin.js",
+    "esbuild": "yarn run esbuild:ext && yarn run esbuild:ls",
+    "copy": "cp package.json ./out/ls",
+    "prepackage": "yarn run clean && yarn run esbuild && yarn run copy",
+    "package": "vsce package --yarn --allow-star-activation",
+    "watch": "tsc -watch -p ./"
+  },
+  "keywords": [
+    "Trino",
+    "Trinodb",
+    "trino",
+    "trino-driver",
+    "trinodb",
+    "sqltools-driver"
+  ],
+  "categories": [
+    "Programming Languages",
+    "Snippets",
+    "Formatters",
+    "Other"
+  ],
+  "extensionDependencies": [
+    "mtxr.sqltools"
+  ],
+  "activationEvents": [
+    "*",
+    "onLanguage:sql",
+    "onCommand:sqltools.*"
+  ],
+  "main": "./out/extension.js",
+  "dependencies": {
+    "@sqltools/base-driver": "latest",
+    "@sqltools/types": "latest",
+    "presto-client": "^0.12.2",
+    "uuid": "^7.0.2"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.5.5",
+    "@types/node": "^14.0.9",
+    "@types/vscode": "^1.42.0",
+    "esbuild": "^0.14.38",
+    "rimraf": "^3.0.2",
+    "typescript": "^3.7.3",
+    "vsce": "^2.7.0"
+  }
+}

@@ -7,4 +7,5 @@ src/**
 **/.eslintrc.json
 **/*.map
 **/*.ts
+**/.git/config/**
 node_modules/
