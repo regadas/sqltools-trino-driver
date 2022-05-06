@@ -2,14 +2,21 @@
   "name": "sqltools-trino-driver",
   "displayName": "Trino Driver",
   "description": "Trino Driver for SQLTools",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "engines": {
     "vscode": "^1.42.0"
   },
   "publisher": "regadas",
   "license": "MIT",
-  "repository": {},
-  "bugs": {},
+  "icon": "icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/regadas/sqltools-extra-drivers.git",
+    "directory": "packages/driver.trino"
+  },
+  "bugs": {
+    "url": "https://github.com/regadas/sqltools-extra-drivers/issues"
+  },
   "scripts": {
     "clean": "rimraf -rf out *.vsix",
     "esbuild:ext": "esbuild ./src/extension.ts --bundle --external:vscode --platform=node --tsconfig=./tsconfig.json --log-level=info --color=true --format=cjs --target=es2017 --minify --outfile=./out/extension.js",
@@ -18,6 +25,8 @@
     "copy": "cp package.json ./out/ls",
     "prepackage": "yarn run clean && yarn run esbuild && yarn run copy",
     "package": "vsce package --yarn --allow-star-activation",
+    "publish": "vsce publish --yarn --allow-star-activation",
+    "test-compile": "tsc -p ./",
     "watch": "tsc -watch -p ./"
   },
   "keywords": [
@@ -47,6 +56,7 @@
     "@sqltools/base-driver": "latest",
     "@sqltools/types": "latest",
     "presto-client": "^0.12.2",
+    "sqltools-presto-driver": "0.1.1",
     "uuid": "^7.0.2"
   },
   "devDependencies": {

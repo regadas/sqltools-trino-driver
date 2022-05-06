@@ -1,9 +1,4 @@
 {
-  "name": "sqltools-extra-drivers",
-  "displayName": "SQLTools Extra Drivers",
-  "description": "",
-  "version": "0.1.0",
-  "publisher": "regadas",
   "private": true,
   "workspaces": [
     "packages/*"
