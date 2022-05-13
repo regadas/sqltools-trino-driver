@@ -60,7 +60,7 @@ export default class TrinoDriver
     return this.open()
       .then(async (db) => {
         const rr: QueryResponse[] = [];
-        for (const q of QueryParser.statements({ str: query })) {
+        for (const q of QueryParser.statements(query)) {
           const result = await new Promise<QueryResponse>((resolve, reject) => {
             const results = [];
             let cols = [];
