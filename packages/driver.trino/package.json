@@ -56,7 +56,6 @@
     "@sqltools/base-driver": "latest",
     "@sqltools/types": "latest",
     "presto-client": "^0.12.2",
-    "sqltools-presto-driver": "0.1.1",
     "uuid": "^7.0.2"
   },
   "devDependencies": {
