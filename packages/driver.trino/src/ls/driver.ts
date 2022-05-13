@@ -10,6 +10,7 @@ import {
 import { v4 as generateId } from "uuid";
 import presto from "presto-client";
 import { QueryResponse } from "./types";
+import { QueryParser } from "./parser";
 
 type DriverLib = typeof presto.Client;
 type DriverOptions = any;
@@ -45,21 +46,22 @@ export default class TrinoDriver
     return this.connection;
   }
 
-  public async close() {
+  public async close(): Promise<void> {
     if (!this.connection) return Promise.resolve();
     await this.connection;
     this.connection = null;
   }
 
   public query: typeof AbstractDriver["prototype"]["query"] = async (
-    query,
+    query: string,
     opt = {}
   ) => {
     const { requestId } = opt;
     return this.open()
       .then(async (db) => {
-        const queriesResults: QueryResponse = await new Promise(
-          (resolve, reject) => {
+        const rr: QueryResponse[] = [];
+        for (const q of QueryParser.statements({ str: query })) {
+          const result = await new Promise<QueryResponse>((resolve, reject) => {
             const results = [];
             let cols = [];
 
@@ -76,18 +78,21 @@ export default class TrinoDriver
 
             const callback = (error, _) => {
               if (error) return reject(error);
-              resolve([results, cols]);
+              resolve([q, results, cols]);
             };
 
-            db.execute({ query: query, data: onData, callback: callback });
-          }
-        );
-        return queriesResults;
+            db.execute({ query: q, data: onData, callback: callback });
+          });
+
+          rr.push(result);
+        }
+
+        return rr;
       })
       .then((results) => {
-        const [rows, columns] = results;
-        return [
-          <NSDatabase.IResult>{
+        return results.map((result) => {
+          const [q, rows, columns] = result;
+          return <NSDatabase.IResult>{
             requestId,
             resultId: generateId(),
             connId: this.getId(),
@@ -100,9 +105,9 @@ export default class TrinoDriver
                   .join(" ")
               ),
             ],
-            query,
-          },
-        ];
+            query: q,
+          };
+        });
       })
       .catch((error) => {
         return [
