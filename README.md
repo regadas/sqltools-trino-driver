@@ -4,9 +4,9 @@ Monorepo for extra SQLTools drivers.
 
 ## Drivers
 
-|                 | Driver         | Marketplace               | Package                                      |
-| --------------- | -------------- | ------------------------- | -------------------------------------------- |
-| ![][trino-icon] | [Trino][trino] | [Link][trino-marketplace] | [pakages/driver.trino](pakages/driver.trino) |
+|                 | Driver         | Marketplace               | Package                                        |
+| --------------- | -------------- | ------------------------- | ---------------------------------------------- |
+| ![][trino-icon] | [Trino][trino] | [Link][trino-marketplace] | [packages/driver.trino](packages/driver.trino) |
 
 ## Contributing
 
