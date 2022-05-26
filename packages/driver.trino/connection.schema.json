@@ -21,7 +21,17 @@
     "user": {
       "title": "User",
       "type": "string"
+    },
+    "password": {
+      "title": "Password",
+      "type": "string",
+      "minLength": 1
     }
   },
-  "required": ["host", "catalog", "port", "user"]
+  "required": [
+    "host",
+    "catalog",
+    "port",
+    "user"
+  ]
 }
