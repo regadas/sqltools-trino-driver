@@ -1,3 +1,12 @@
 {
-  "ui:order": ["host", "port", "catalog", "schema", "user"]
+  "ui:order": [
+    "host",
+    "port",
+    "catalog",
+    "schema",
+    "user"
+  ],
+  "password": {
+    "ui:widget": "password"
+  }
 }

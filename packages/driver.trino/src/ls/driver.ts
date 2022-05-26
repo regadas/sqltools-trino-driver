@@ -36,6 +36,13 @@ export default class TrinoDriver
       source: "sqltools-driver",
     };
 
+    if (this.credentials.password) {
+      connOptions["basic_auth"] = {
+        user: this.credentials.user,
+        password: this.credentials.password,
+      };
+    }
+
     try {
       const conn = new presto.Client(connOptions);
       this.connection = Promise.resolve(conn);
