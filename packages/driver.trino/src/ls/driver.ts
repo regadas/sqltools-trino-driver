@@ -133,10 +133,13 @@ export default class TrinoDriver
   public async testConnection() {
     await this.open();
     const testSelect = await this.query("SELECT 1", {});
-    if (testSelect[0].error) {
-      return Promise.reject({
-        message: `Connected but cannot run SQL. ${testSelect[0].rawError}`,
-      });
+
+    if (testSelect.length > 0 && testSelect[0].error) {
+      const msg = testSelect[0].messages
+        .map((m: { message: string; date: Date }) => m.message)
+        .join("\n");
+
+      return Promise.reject({ message: msg });
     }
   }
 
