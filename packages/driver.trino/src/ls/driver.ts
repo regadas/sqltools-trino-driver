@@ -63,7 +63,7 @@ export default class TrinoDriver
     db: presto.Client,
     query: string
   ): Promise<QueryResult> {
-    return await new Promise<QueryResult>((resolve, reject) => {
+    return new Promise<QueryResult>((resolve, reject) => {
       const results = [];
       let cols = [];
 
