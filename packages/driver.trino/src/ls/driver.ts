@@ -9,7 +9,7 @@ import {
 } from "@sqltools/types";
 import { v4 as generateId } from "uuid";
 import presto from "presto-client";
-import { QueryResponse } from "./types";
+import { QueryResult } from "./types";
 import { QueryParser } from "./parser";
 
 type DriverLib = typeof presto.Client;
@@ -59,45 +59,45 @@ export default class TrinoDriver
     this.connection = null;
   }
 
+  private async executeQuery(
+    db: presto.Client,
+    query: string
+  ): Promise<QueryResult> {
+    return new Promise<QueryResult>((resolve, reject) => {
+      const results = [];
+      let cols = [];
+
+      const onData = (error, rows, columns, _) => {
+        if (error) return reject(error);
+
+        cols = columns;
+        rows.forEach((row: any[]) => {
+          const data = {};
+          row.forEach((value, idx) => (data[columns[idx].name] = value));
+          results.push(data);
+        });
+      };
+
+      const callback = (error, _) => {
+        if (error) return reject(error);
+        resolve([query, results, cols]);
+      };
+
+      db.execute({ query: query, data: onData, callback: callback });
+    });
+  }
+
   public query: typeof AbstractDriver["prototype"]["query"] = async (
     query: string,
     opt = {}
   ) => {
     const { requestId } = opt;
-    return this.open()
-      .then(async (db) => {
-        const rr: QueryResponse[] = [];
-        for (const q of QueryParser.statements(query)) {
-          const result = await new Promise<QueryResponse>((resolve, reject) => {
-            const results = [];
-            let cols = [];
+    const resultsAgg: NSDatabase.IResult[] = [];
+    const db = await this.open();
 
-            const onData = (error, rows, columns, _) => {
-              if (error) return reject(error);
-
-              cols = columns;
-              rows.forEach((row) => {
-                const data = {};
-                row.forEach((value, idx) => (data[columns[idx].name] = value));
-                results.push(data);
-              });
-            };
-
-            const callback = (error, _) => {
-              if (error) return reject(error);
-              resolve([q, results, cols]);
-            };
-
-            db.execute({ query: q, data: onData, callback: callback });
-          });
-
-          rr.push(result);
-        }
-
-        return rr;
-      })
-      .then((results) => {
-        return results.map((result) => {
+    for (const q of QueryParser.statements(query)) {
+      const iresult: NSDatabase.IResult = await this.executeQuery(db, q)
+        .then((result) => {
           const [q, rows, columns] = result;
           return <NSDatabase.IResult>{
             requestId,
@@ -114,27 +114,30 @@ export default class TrinoDriver
             ],
             query: q,
           };
-        });
-      })
-      .catch((error) => {
-        return [
-          <NSDatabase.IResult>{
-            connId: this.getId(),
-            requestId,
-            resultId: generateId(),
-            cols: [],
-            messages: [
-              this.prepareMessage(
-                [error.message.replace(/\n/g, " ")].filter(Boolean).join(" ")
-              ),
-            ],
-            error: true,
-            rawError: error,
-            query,
-            results: [],
-          },
-        ];
-      });
+        })
+        .catch(
+          (error) =>
+            <NSDatabase.IResult>{
+              connId: this.getId(),
+              requestId,
+              resultId: generateId(),
+              cols: [],
+              messages: [
+                this.prepareMessage(
+                  [error.message.replace(/\n/g, " ")].filter(Boolean).join(" ")
+                ),
+              ],
+              error: true,
+              rawError: error,
+              query,
+              results: [],
+            }
+        );
+
+      resultsAgg.push(iresult);
+    }
+
+    return resultsAgg;
   };
 
   public async testConnection() {
