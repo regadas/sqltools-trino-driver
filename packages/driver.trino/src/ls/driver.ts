@@ -17,7 +17,8 @@ type DriverOptions = any;
 
 export default class TrinoDriver
   extends AbstractDriver<DriverLib, DriverOptions>
-  implements IConnectionDriver {
+  implements IConnectionDriver
+{
   queries = queries;
 
   public async open(): Promise<presto.Client> {
@@ -58,7 +59,10 @@ export default class TrinoDriver
     this.connection = null;
   }
 
-  private async executeQuery(db: presto.Client, query: string): Promise<QueryResult> {
+  private async executeQuery(
+    db: presto.Client,
+    query: string
+  ): Promise<QueryResult> {
     return await new Promise<QueryResult>((resolve, reject) => {
       const results = [];
       let cols = [];
@@ -111,21 +115,24 @@ export default class TrinoDriver
             query: q,
           };
         })
-        .catch((error) => <NSDatabase.IResult>{
-          connId: this.getId(),
-          requestId,
-          resultId: generateId(),
-          cols: [],
-          messages: [
-            this.prepareMessage(
-              [error.message.replace(/\n/g, " ")].filter(Boolean).join(" ")
-            ),
-          ],
-          error: true,
-          rawError: error,
-          query,
-          results: [],
-        });
+        .catch(
+          (error) =>
+            <NSDatabase.IResult>{
+              connId: this.getId(),
+              requestId,
+              resultId: generateId(),
+              cols: [],
+              messages: [
+                this.prepareMessage(
+                  [error.message.replace(/\n/g, " ")].filter(Boolean).join(" ")
+                ),
+              ],
+              error: true,
+              rawError: error,
+              query,
+              results: [],
+            }
+        );
 
       resultsAgg.push(iresult);
     }
