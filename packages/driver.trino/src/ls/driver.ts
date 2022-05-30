@@ -80,7 +80,7 @@ export default class TrinoDriver
 
       const callback = (error, _) => {
         if (error) return reject(error);
-        resolve([query, results, cols]);
+        resolve([results, cols]);
       };
 
       db.execute({ query: query, data: onData, callback: callback });
@@ -98,7 +98,7 @@ export default class TrinoDriver
     for (const q of QueryParser.statements(query)) {
       const iresult: NSDatabase.IResult = await this.executeQuery(db, q)
         .then((result) => {
-          const [q, rows, columns] = result;
+          const [rows, columns] = result;
           return <NSDatabase.IResult>{
             requestId,
             resultId: generateId(),
