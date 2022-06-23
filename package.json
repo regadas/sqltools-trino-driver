@@ -4,6 +4,7 @@
     "packages/*"
   ],
   "scripts": {
+    "clean": "yarn workspaces run clean",
     "test-compile": "yarn workspaces run test-compile",
     "package": "yarn workspaces run package"
   }
