@@ -2,13 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "properties": {
-    "host": {
-      "title": "Host",
+    "server": {
+      "title": "Server",
       "type": "string"
-    },
-    "port": {
-      "title": "Port",
-      "type": "number"
     },
     "catalog": {
       "title": "Catalog",
@@ -28,10 +24,5 @@
       "minLength": 1
     }
   },
-  "required": [
-    "host",
-    "catalog",
-    "port",
-    "user"
-  ]
+  "required": ["server", "catalog", "user"]
 }

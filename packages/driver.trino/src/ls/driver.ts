@@ -8,11 +8,11 @@ import {
   Arg0,
 } from "@sqltools/types";
 import { v4 as generateId } from "uuid";
-import presto from "presto-client";
 import { QueryResult } from "./types";
 import { QueryParser } from "./parser";
+import { BasicAuth, ConnectionOptions, Trino } from "trino-client";
 
-type DriverLib = typeof presto.Client;
+type DriverLib = Trino;
 type DriverOptions = any;
 
 export default class TrinoDriver
@@ -21,30 +21,21 @@ export default class TrinoDriver
 {
   queries = queries;
 
-  public async open(): Promise<presto.Client> {
+  public async open(): Promise<Trino> {
     if (this.connection) {
       return this.connection;
     }
 
-    const connOptions = {
-      host: this.credentials.host,
-      port: this.credentials.port,
+    const connOptions: ConnectionOptions = {
+      server: this.credentials.server,
       catalog: this.credentials.catalog,
       schema: this.credentials.schema,
-      user: this.credentials.user,
-      engine: "trino",
       source: "sqltools-driver",
+      auth: new BasicAuth(this.credentials.user, this.credentials.password),
     };
 
-    if (this.credentials.password) {
-      connOptions["basic_auth"] = {
-        user: this.credentials.user,
-        password: this.credentials.password,
-      };
-    }
-
     try {
-      const conn = new presto.Client(connOptions);
+      const conn = new Trino(connOptions);
       this.connection = Promise.resolve(conn);
     } catch (error) {
       return Promise.reject(error);
@@ -59,31 +50,27 @@ export default class TrinoDriver
     this.connection = null;
   }
 
-  private async executeQuery(
-    db: presto.Client,
-    query: string
-  ): Promise<QueryResult> {
-    return new Promise<QueryResult>((resolve, reject) => {
-      const results = [];
-      let cols = [];
+  private async executeQuery(db: Trino, query: string): Promise<QueryResult> {
+    const empty: QueryResult = [[], []] as QueryResult;
+    return (await db.query(query)).fold(empty, (qr, acc) => {
+      let [accRows, columns] = <QueryResult>acc;
+      if (!columns || columns.length == 0) {
+        columns = (qr.columns ?? []).map(
+          (c) =>
+            <{ name: string; type: string }>{
+              name: c.name,
+              type: c.type,
+            }
+        );
+      }
 
-      const onData = (error, rows, columns, _) => {
-        if (error) return reject(error);
+      const rows = (qr.data ?? []).map((row: any[]) => {
+        const data = {};
+        row.forEach((value, idx) => (data[columns[idx].name] = value));
+        return data;
+      });
 
-        cols = columns;
-        rows.forEach((row: any[]) => {
-          const data = {};
-          row.forEach((value, idx) => (data[columns[idx].name] = value));
-          results.push(data);
-        });
-      };
-
-      const callback = (error, _) => {
-        if (error) return reject(error);
-        resolve([results, cols]);
-      };
-
-      db.execute({ query: query, data: onData, callback: callback });
+      return [accRows.concat(rows), columns];
     });
   }
 
