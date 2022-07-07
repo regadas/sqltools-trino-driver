@@ -53,6 +53,7 @@ export default class TrinoDriver
   private async executeQuery(db: Trino, query: string): Promise<QueryResult> {
     const empty: QueryResult = [[], []] as QueryResult;
     return (await db.query(query)).fold(empty, (qr, acc) => {
+      // eslint-disable-next-line prefer-const
       let [accRows, columns] = <QueryResult>acc;
       if (!columns || columns.length == 0) {
         columns = (qr.columns ?? []).map(
