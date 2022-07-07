@@ -1,6 +1,6 @@
 import { IDriverAlias } from "@sqltools/types";
 
-const { displayName } = require("../package.json");
+import { displayName } from "../package.json";
 
 /**
  * Aliases for yout driver. EG: PostgreSQL, PG, postgres can all resolve to your driver

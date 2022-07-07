@@ -1,5 +1,5 @@
 export class QueryParser {
-  static statements(query: string, delimiter: string = ";"): string[] {
+  static statements(query: string, delimiter = ";"): string[] {
     return query
       .split(delimiter)
       .map((line) => line.trim())

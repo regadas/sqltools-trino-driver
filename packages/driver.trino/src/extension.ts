@@ -7,7 +7,7 @@ import {
 import { ExtensionContext } from "vscode";
 import { DRIVER_ALIASES } from "./constants";
 
-const { publisher, name, displayName } = require("../package.json");
+import { publisher, name, displayName } from "../package.json";
 
 export async function activate(
   extContext: ExtensionContext
@@ -67,4 +67,5 @@ export async function activate(
   };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 export function deactivate() {}
