@@ -2341,10 +2341,10 @@ to-fast-properties@^2.0.0:
   resolved "https://registry.npmjs.org/to-fast-properties/-/to-fast-properties-2.0.0.tgz"
   integrity sha512-/OaKK0xYrs3DmxRYqL/yDc+FxFUVYhDlXMhRmv3z915w2HF1tnN1omB354j8VUGO/hbRzyD6Y3sA7v7GS/ceog==
 
-trino-client@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/trino-client/-/trino-client-0.1.3.tgz#95ae1ea59db2a5fbe229b437f06d4df81b04ccb4"
-  integrity sha512-YwoNbIY9sutRwPEO0fIEv7TVbjvi5Txdjd49W+BJ7wkOPtR+P0qRumRo3XQfh3KWBNj8r5ca3MI96UQeJZ/9nA==
+trino-client@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/trino-client/-/trino-client-0.1.7.tgz#fa9ee589ce86155c97d3649e4a3afa535de62672"
+  integrity sha512-azVoB2WAYdVq1t1keuFEq5aff9IsayMGPXhMjYYkpX3xxoOf+k9Z38/AZKzAMlHLqSgqhhUYPRIJppzm6IHqLA==
   dependencies:
     axios "^0.27.2"
 
