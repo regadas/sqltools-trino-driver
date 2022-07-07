@@ -2,5 +2,8 @@
   "ui:order": ["server", "catalog", "schema", "user"],
   "password": {
     "ui:widget": "password"
+  },
+  "server": {
+    "ui:help": "Trino server location i.e. http://localhost:8080"
   }
 }
