@@ -2776,10 +2776,10 @@ to-regex-range@^5.0.1:
   dependencies:
     is-number "^7.0.0"
 
-trino-client@^0.1.7:
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/trino-client/-/trino-client-0.1.7.tgz#fa9ee589ce86155c97d3649e4a3afa535de62672"
-  integrity sha512-azVoB2WAYdVq1t1keuFEq5aff9IsayMGPXhMjYYkpX3xxoOf+k9Z38/AZKzAMlHLqSgqhhUYPRIJppzm6IHqLA==
+trino-client@^0.1.9:
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/trino-client/-/trino-client-0.1.9.tgz#d39080715c666adbd418d580dff41775d47a4846"
+  integrity sha512-CDTtNwcULSOgcx+fwooSJVFk9bRPsiTmET3BH1o/R2q9XZb9sG50l3AD6ncvZTPV8m7zp39ttXmXd2PGADQ0dg==
   dependencies:
     axios "^0.27.2"
 
