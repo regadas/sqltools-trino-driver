@@ -6,6 +6,7 @@ import {
   NSDatabase,
   ContextValue,
   Arg0,
+  IQueryOptions,
 } from "@sqltools/types";
 import { v4 as generateId } from "uuid";
 import { QueryResult } from "./types";
@@ -50,13 +51,41 @@ export default class TrinoDriver
     this.connection = null;
   }
 
+  private buildResult = (
+    query: string,
+    queryResult: QueryResult,
+    opts: IQueryOptions
+  ): NSDatabase.IResult => {
+    const columns = queryResult.columns ?? [];
+    const rows = queryResult.rows ?? [];
+    const msg = queryResult.error
+      ? queryResult.error.message
+      : `Successfully executed. ${rows.length} rows were affected.`;
+
+    return {
+      requestId: opts.requestId,
+      resultId: generateId(),
+      connId: this.getId(),
+      cols: columns.map((col) => col.name),
+      results: rows,
+      messages: [this.prepareMessage(msg)],
+      error: queryResult.error ? true : false,
+      rawError: queryResult.error,
+      query,
+    };
+  };
+
   private async executeQuery(db: Trino, query: string): Promise<QueryResult> {
-    const empty: QueryResult = [[], []] as QueryResult;
+    const empty: QueryResult = {} as QueryResult;
     return (await db.query(query)).fold(empty, (qr, acc) => {
-      // eslint-disable-next-line prefer-const
-      let [accRows, columns] = <QueryResult>acc;
-      if (!columns || columns.length == 0) {
-        columns = (qr.columns ?? []).map(
+      if (qr.error) {
+        return {
+          error: new Error(qr.error.message),
+        };
+      }
+
+      if (!acc.columns || acc.columns.length == 0) {
+        acc.columns = (qr.columns ?? []).map(
           (c) =>
             <{ name: string; type: string }>{
               name: c.name,
@@ -67,11 +96,12 @@ export default class TrinoDriver
 
       const rows = (qr.data ?? []).map((row: any[]) => {
         const data = {};
-        row.forEach((value, idx) => (data[columns[idx].name] = value));
+        row.forEach((value, idx) => (data[acc.columns[idx].name] = value));
         return data;
       });
+      acc.rows = acc.rows ? [...acc.rows, ...rows] : rows;
 
-      return [accRows.concat(rows), columns];
+      return acc;
     });
   }
 
@@ -79,48 +109,13 @@ export default class TrinoDriver
     query: string,
     opt = {}
   ) => {
-    const { requestId } = opt;
     const resultsAgg: NSDatabase.IResult[] = [];
     const db = await this.open();
 
     for (const q of QueryParser.statements(query)) {
       const iresult: NSDatabase.IResult = await this.executeQuery(db, q)
-        .then((result) => {
-          const [rows, columns] = result;
-          return <NSDatabase.IResult>{
-            requestId,
-            resultId: generateId(),
-            connId: this.getId(),
-            cols: columns.map((col) => col.name),
-            results: rows,
-            messages: [
-              this.prepareMessage(
-                [`Successfully executed. ${rows.length} rows were affected.`]
-                  .filter(Boolean)
-                  .join(" ")
-              ),
-            ],
-            query: q,
-          };
-        })
-        .catch(
-          (error) =>
-            <NSDatabase.IResult>{
-              connId: this.getId(),
-              requestId,
-              resultId: generateId(),
-              cols: [],
-              messages: [
-                this.prepareMessage(
-                  [error.message.replace(/\n/g, " ")].filter(Boolean).join(" ")
-                ),
-              ],
-              error: true,
-              rawError: error,
-              query,
-              results: [],
-            }
-        );
+        .then((result) => this.buildResult(q, result, opt))
+        .catch((error) => this.buildResult(q, { error: error }, opt));
 
       resultsAgg.push(iresult);
     }
