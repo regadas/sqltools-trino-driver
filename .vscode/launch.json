@@ -5,11 +5,9 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "args": [
-        "--extensionDevelopmentPath=${workspaceFolder}/packages/driver.trino"
-      ],
+      "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
       "name": "Launch Trino Extension",
-      "outFiles": ["${workspaceFolder}/packages/driver.trino/out/**/*.js"],
+      "outFiles": ["${workspaceFolder}/out/**/*.js"],
       "request": "launch",
       "type": "extensionHost"
     }
