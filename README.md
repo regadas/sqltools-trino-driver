@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="packages/driver.trino/icon.png" />
+  <img src="icon.png" />
 </p>
 
 # SQLTools Trino Driver
