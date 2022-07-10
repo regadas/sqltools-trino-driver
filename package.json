@@ -1,6 +1,6 @@
 {
   "name": "sqltools-trino-driver",
-  "displayName": "Trino Driver",
+  "displayName": "SQLTools Trino Driver",
   "description": "Trino Driver for SQLTools",
   "version": "0.2.5",
   "engines": {
@@ -11,11 +11,10 @@
   "icon": "icon.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/regadas/sqltools-extra-drivers.git",
-    "directory": "packages/driver.trino"
+    "url": "https://github.com/regadas/sqltools-trino-driver.git"
   },
   "bugs": {
-    "url": "https://github.com/regadas/sqltools-extra-drivers/issues"
+    "url": "https://github.com/regadas/sqltools-trino-driver/issues"
   },
   "scripts": {
     "clean": "rimraf -rf out *.vsix",
