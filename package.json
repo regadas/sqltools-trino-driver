@@ -1,6 +1,6 @@
 {
   "name": "sqltools-trino-driver",
-  "displayName": "SQLTools Trino Driver",
+  "displayName": "Trino Driver",
   "description": "Trino Driver for SQLTools",
   "version": "0.2.5",
   "engines": {
