@@ -2,9 +2,14 @@
   <img src="icon.png" />
 </p>
 
+[![ci](https://github.com/regadas/sqltools-trino-driver/actions/workflows/ci.yml/badge.svg)](https://github.com/regadas/sqltools-trino-driver/actions/workflows/ci.yml)
+![license](https://img.shields.io/github/license/regadas/trino-js-client)
+
+
 # SQLTools Trino Driver
 
 [Trino][trino] driver for VS Code [SQLTools extension](https://vscode-sqltools.mteixeira.dev/).
+
 
 ## Installation
 
