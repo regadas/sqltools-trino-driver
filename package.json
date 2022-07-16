@@ -2,7 +2,7 @@
   "name": "sqltools-trino-driver",
   "displayName": "Trino Driver",
   "description": "Trino Driver for SQLTools",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "engines": {
     "vscode": "^1.42.0"
   },
@@ -20,9 +20,9 @@
     "clean": "rimraf -rf out *.vsix",
     "esbuild:ext": "esbuild ./src/extension.ts --bundle --external:vscode --platform=node --tsconfig=./tsconfig.json --log-level=info --color=true --format=cjs --target=es2017 --minify --outfile=./out/extension.js",
     "esbuild:ls": "esbuild ./src/ls/plugin.ts --bundle --external:vscode --platform=node --tsconfig=./tsconfig.json --log-level=info --color=true --format=cjs --target=es2017 --minify --outfile=./out/ls/plugin.js",
-    "esbuild": "yarn run esbuild:ext && yarn run esbuild:ls",
+    "esbuild": "yarn esbuild:ext && yarn esbuild:ls",
     "copy": "cp package.json ./out/ls",
-    "prepackage": "yarn run clean && yarn run esbuild && yarn run copy",
+    "prepackage": "yarn install && yarn clean && yarn esbuild && yarn copy",
     "package": "vsce package --yarn --allow-star-activation",
     "publish": "vsce publish --yarn --allow-star-activation",
     "test-compile": "tsc -p ./",
