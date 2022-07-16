@@ -54,7 +54,7 @@
   "dependencies": {
     "@sqltools/base-driver": "latest",
     "@sqltools/types": "latest",
-    "trino-client": "^0.1.9",
+    "trino-client": "^0.1.10",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
