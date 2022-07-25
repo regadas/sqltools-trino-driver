@@ -2885,10 +2885,10 @@ to-regex-range@^5.0.1:
   dependencies:
     is-number "^7.0.0"
 
-trino-client@^0.1.10:
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/trino-client/-/trino-client-0.1.10.tgz#f05258ae09f66278bc35113a8bc87f6a0f547add"
-  integrity sha512-+zZzX36FPpgGenxojQ5/nT9hhvjqIwcgdh9xhJjCgfW9er+TEktN5LsLKrOw1jz2v3lOJ6RybpXYrCrcqMInaw==
+trino-client@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/trino-client/-/trino-client-0.2.0.tgz#89fdeebfbc85aaef24eed5e36dff98a86881136a"
+  integrity sha512-lHn62r1u+hKm5+h3S9zGThciB3F3ax/9f3mQiXQYc5Cy+1G42ivz11wLApNuyrzsLKt0HbfhYSzy9uFiMGFdmQ==
   dependencies:
     axios "^0.27.2"
 
