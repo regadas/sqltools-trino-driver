@@ -11,7 +11,7 @@ import {
 import { v4 as generateId } from "uuid";
 import { QueryResult } from "./types";
 import { QueryParser } from "./parser";
-import { BasicAuth, ConnectionOptions, Trino } from "trino-client";
+import { BasicAuth, ConnectionOptions, QueryData, Trino } from "trino-client";
 
 type DriverLib = Trino;
 type DriverOptions = any;
@@ -36,7 +36,7 @@ export default class TrinoDriver
     };
 
     try {
-      const conn = new Trino(connOptions);
+      const conn = Trino.create(connOptions);
       this.connection = Promise.resolve(conn);
     } catch (error) {
       return Promise.reject(error);
@@ -94,7 +94,7 @@ export default class TrinoDriver
         );
       }
 
-      const rows = (qr.data ?? []).map((row: any[]) => {
+      const rows = (qr.data ?? []).map((row: QueryData[]) => {
         const data = {};
         row.forEach((value, idx) => (data[acc.columns[idx].name] = value));
         return data;
