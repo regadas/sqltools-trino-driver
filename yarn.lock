@@ -1096,9 +1096,9 @@
     fastq "^1.6.0"
 
 "@sqltools/base-driver@latest":
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/@sqltools/base-driver/-/base-driver-0.1.10.tgz#6808192c7761b3f3406e1096380ed70318c22f57"
-  integrity sha512-OX0SLdbtlrvDee2gNMu0qUJlPBdrQbCJox0RMkcbg6cMDdq9Hgdow5euQrdGhGjAJIzGwvL0ecwRC1PLFamhWw==
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@sqltools/base-driver/-/base-driver-0.1.11.tgz#8df3955771ee42af26846d66cc010537ed5fa1b3"
+  integrity sha512-HvmblI2MbdZUkDGIjU87FTiE/Q1NfIM6SFQJGbg5Y2vCHQ8mkUnU8QS+ANbeq3YChDpjLH+b3EHq4zdavIGk5Q==
   dependencies:
     "@sqltools/log" latest
     "@sqltools/types" latest
@@ -1106,6 +1106,7 @@
     make-dir "^3.1.0"
     resolve "^1.17.0"
     vscode-languageserver "6.1.1"
+    vscode-uri "^3.0.3"
 
 "@sqltools/log@latest":
   version "1.0.3"
@@ -3177,6 +3178,11 @@ vscode-languageserver@6.1.1:
   integrity sha512-DueEpkUAkD5XTR4MLYNr6bQIp/UFR0/IPApgXU3YfCBCB08u2sm9hRCs6DxYZELkk++STPjpcjksR2H8qI3cDQ==
   dependencies:
     vscode-languageserver-protocol "^3.15.3"
+
+vscode-uri@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/vscode-uri/-/vscode-uri-3.0.3.tgz#a95c1ce2e6f41b7549f86279d19f47951e4f4d84"
+  integrity sha512-EcswR2S8bpR7fD0YPeS7r2xXExrScVMxg4MedACaWHEtx9ftCF/qHG1xGkolzTPcEmjTavCQgbVzHUIdTMzFGA==
 
 which@^2.0.1:
   version "2.0.2"
