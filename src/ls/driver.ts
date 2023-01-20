@@ -28,11 +28,12 @@ export default class TrinoDriver
     }
 
     const connOptions: ConnectionOptions = {
-      server: this.credentials.server,
+      server: this.credentials.server + ":" + this.credentials.port,
       catalog: this.credentials.catalog,
       schema: this.credentials.schema,
       source: "sqltools-driver",
       auth: new BasicAuth(this.credentials.user, this.credentials.password),
+      verify: this.credentials.verify
     };
 
     try {
