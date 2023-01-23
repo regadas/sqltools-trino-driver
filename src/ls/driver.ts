@@ -33,7 +33,7 @@ export default class TrinoDriver
       schema: this.credentials.schema,
       source: "sqltools-driver",
       auth: new BasicAuth(this.credentials.user, this.credentials.password),
-      verify: this.credentials.verify
+      verifySSLCert: this.credentials.verifySSLCert
     };
 
     try {
