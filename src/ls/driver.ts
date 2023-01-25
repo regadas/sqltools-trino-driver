@@ -27,8 +27,13 @@ export default class TrinoDriver
       return this.connection;
     }
 
+    var server = this.credentials.server
+    if (this.credentials.port) {
+      server = server + ":" this.credentials.port
+    }
+
     const connOptions: ConnectionOptions = {
-      server: this.credentials.server + ":" + this.credentials.port,
+      server: server,
       catalog: this.credentials.catalog,
       schema: this.credentials.schema,
       source: "sqltools-driver",
