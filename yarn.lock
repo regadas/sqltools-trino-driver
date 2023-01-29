@@ -1248,9 +1248,9 @@
     pino-pretty "^4.1.0"
 
 "@sqltools/types@latest":
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/@sqltools/types/-/types-0.1.6.tgz#48715529f7d585d6576b8a6de7ab7636cda7a5be"
-  integrity sha512-KwP3m4xWmZ0XRG3OtIaIHcqYxuuT3EL3ZeK/S97v9qOH0qL/fg1DU0PbvRO0EComETV78GEvMDE863Hjgx77LQ==
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@sqltools/types/-/types-0.1.7.tgz#58330deebee1a6f420f529a148a688b73eed869c"
+  integrity sha512-qwND/v78poEuUkuBgZ7yUzgUtk/vGxqAKndOa4kZpAPbvlI+S5e0Py0+UhDGm897CPoaSgTUsvxSxol/BcbJEw==
 
 "@types/json-schema@^7.0.9":
   version "7.0.11"
