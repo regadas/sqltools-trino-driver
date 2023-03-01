@@ -32,8 +32,8 @@ ORDER BY ORDINAL_POSITION ASC
 const fetchRecords: IBaseQueries["fetchRecords"] = queryFactory`
 SELECT *
 FROM ${(p) => p.table.schema+'.'+p.table.label}
+OFFSET ${(p) => p.offset || 0}
 LIMIT ${(p) => p.limit || 50}
-OFFSET ${(p) => p.offset || 0};
 `;
 
 const countRecords: IBaseQueries["countRecords"] = queryFactory`
