@@ -65,7 +65,7 @@
     "@typescript-eslint/parser": "^5.54.0",
     "esbuild": "^0.17.12",
     "eslint": "^8.35.0",
-    "eslint-config-prettier": "^8.6.0",
+    "eslint-config-prettier": "^8.8.0",
     "prettier": "^2.8.4",
     "rimraf": "^4.4.0",
     "typescript": "^5.0.2",
