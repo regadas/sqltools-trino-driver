@@ -61,7 +61,7 @@
     "@babel/preset-env": "^7.20.2",
     "@types/node": "^18.15.3",
     "@types/vscode": "^1.75.1",
-    "@typescript-eslint/eslint-plugin": "^5.57.1",
+    "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.54.0",
     "esbuild": "^0.17.15",
     "eslint": "^8.38.0",
