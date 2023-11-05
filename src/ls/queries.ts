@@ -31,14 +31,14 @@ ORDER BY ORDINAL_POSITION ASC
 
 const fetchRecords: IBaseQueries["fetchRecords"] = queryFactory`
 SELECT *
-FROM ${(p) => p.table.schema+'.'+p.table.label}
+FROM ${(p) => p.table.schema + "." + p.table.label}
 OFFSET ${(p) => p.offset || 0}
 LIMIT ${(p) => p.limit || 50}
 `;
 
 const countRecords: IBaseQueries["countRecords"] = queryFactory`
 SELECT count(1) AS total
-FROM ${(p) => p.table.schema+'.'+p.table.label}
+FROM ${(p) => p.table.schema + "." + p.table.label}
 `;
 
 const fetchTablesAndViews = (
