@@ -1,9 +1,23 @@
 {
-  "ui:order": ["server", "catalog", "schema", "user"],
+  "ui:order": [
+    "server",
+    "catalog",
+    "schema",
+    "user",
+    "password",
+    "trinoOptions"
+  ],
   "password": {
     "ui:widget": "password"
   },
   "server": {
     "ui:help": "Trino server location i.e. http://localhost:8080"
+  },
+  "trinoOptions": {
+    "ssl": {
+      "rejectUnauthorized": {
+        "ui:help": "Disable SSL verification"
+      }
+    }
   }
 }
