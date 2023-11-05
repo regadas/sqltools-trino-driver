@@ -5,7 +5,7 @@ import {
 import TrinoDriver from "./driver";
 import { DRIVER_ALIASES } from "./../constants";
 
-const YourDriverPlugin: ILanguageServerPlugin = {
+const TrinoDriverPlugin: ILanguageServerPlugin = {
   register(server) {
     DRIVER_ALIASES.forEach(({ value }) => {
       server
@@ -15,4 +15,4 @@ const YourDriverPlugin: ILanguageServerPlugin = {
   },
 };
 
-export default YourDriverPlugin;
+export default TrinoDriverPlugin;
