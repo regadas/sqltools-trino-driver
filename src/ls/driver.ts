@@ -11,7 +11,7 @@ import {
 import { v4 as generateId } from "uuid";
 import { QueryResult } from "./types";
 import { QueryParser } from "./parser";
-import { BasicAuth, ConnectionOptions, QueryData, Trino } from "trino-client";
+import { BasicAuth, ConnectionOptions, QueryData, Trino } from "nakulgan/trino-js-client";
 
 type DriverLib = Trino;
 type DriverOptions = any;
