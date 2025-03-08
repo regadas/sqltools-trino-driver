@@ -5,6 +5,7 @@
     "schema",
     "user",
     "password",
+    "clientTags",
     "trinoOptions"
   ],
   "password": {

@@ -23,6 +23,10 @@
       "type": "string",
       "minLength": 1
     },
+    "clientTags": {
+      "title": "clientTags",
+      "type": "string"
+    },
     "trinoOptions": {
       "type": "object",
       "title": "Trino Options",

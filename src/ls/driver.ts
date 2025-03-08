@@ -34,6 +34,7 @@ export default class TrinoDriver
       source: "sqltools-driver",
       auth: new BasicAuth(this.credentials.user, this.credentials.password),
       ssl: this.credentials.trinoOptions?.ssl, 
+      client_tags: this.credentials.client_tags,
     };
 
     try {
