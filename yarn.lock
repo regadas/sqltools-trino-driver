@@ -1315,10 +1315,10 @@ atomic-sleep@^1.0.0:
   resolved "https://registry.yarnpkg.com/atomic-sleep/-/atomic-sleep-1.0.0.tgz#eb85b77a601fc932cfe432c5acd364a9e2c9075b"
   integrity sha512-kNOjDqAh7px0XWNI+4QbzoiR/nTkHAWNud2uvnJquD1/x5a7EQZMJT0AczqK0Qn67oY/TTQ1LbUKajZpp3I9tQ==
 
-axios@1.7.7:
-  version "1.7.7"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.7.7.tgz#2f554296f9892a72ac8d8e4c5b79c14a91d0a47f"
-  integrity sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==
+axios@1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.9.0.tgz#25534e3b72b54540077d33046f77e3b8d7081901"
+  integrity sha512-re4CqKTJaURpzbLHtIi6XpDv20/CnpXOtjRY5/CU32L8gU8ek9UIivcfvSWvmKEngmVbrUtPpdDwWDWL7DNHvg==
   dependencies:
     follow-redirects "^1.15.6"
     form-data "^4.0.0"
@@ -3060,11 +3060,11 @@ to-regex-range@^5.0.1:
     is-number "^7.0.0"
 
 trino-client@^0.2.1:
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/trino-client/-/trino-client-0.2.6.tgz#2f7e29a43b1c1f8eede5bf7f74195be8bee41e6f"
-  integrity sha512-MK+seOsnxCKASAV528xSE/15+b3tTuGxkzv9VuLfyoQsQsVoX+otT2Fo56xBwDR0iDzPuUwyGbRCd3xQE2776g==
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/trino-client/-/trino-client-0.2.7.tgz#971073e1a59df98953d93b17511f086900f63a84"
+  integrity sha512-2FAy8dhR/ofldeimXhsfV4NXYfAtqJWamWH9dPBOYQ45JM0EcHWwKD+gTBDpyYj5HyZPJnXzrr15Mssp49VSTg==
   dependencies:
-    axios "1.7.7"
+    axios "1.9.0"
 
 tslib@^1.8.1:
   version "1.14.1"
